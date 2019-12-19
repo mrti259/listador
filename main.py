@@ -15,8 +15,8 @@ while True:
     archivo = 'archivos/' + arc
     if len(arc) == 0:
         break
-    datos, mod = cargar(archivo)
-    if mod:
+    datos, nuevo = cargar(archivo)
+    if nuevo:
         print('Se ha iniciado un nuevo archivo')
     else:
         print('Se cargó un archivo anterior.')
@@ -72,7 +72,6 @@ while True:
             lista = input().title()
             if not lista in datos:
                 print('No se encuentra la lista.')
-                sleep(2)
             else:
                 print('Lista: %s (%s elemento%s)' % (lista, len(datos[lista]), 's'*(not len(datos[lista])==1)))
                 print(datos[lista], '\n')
@@ -120,14 +119,15 @@ while True:
                     print('Volver')
         
         elif menu == 'w':
-            mod = guardar(archivo, datos)
+            nuevo = guardar(archivo, datos)
             print('Datos guardados!')
         
         else:
-            with open(archivo+'.json', 'r') as file:
-                mod = json.load(file) != datos
-            if mod:
-                print('Hay modificaciones sin guardar')
+            if not nuevo:
+                with open(archivo+'.json', 'r') as file:
+                    mod = json.load(file) != datos
+            if nuevo or mod:
+                print('Hay datos sin guardar')
                 print('[x] Salir sin guardar')
                 print('[w] Guardar y salir')
                 print('o ignorar para cancelar')
