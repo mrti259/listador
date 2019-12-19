@@ -18,7 +18,7 @@ def guardar(archivo, dic):
 # Funciones de diccionario
 
 def crear_lista(dic, nombre):
-    dic[nombre.title()] = []
+    dic[nombre] = []
     return 1
 
 def eliminar_lista(dic, nombre):
@@ -26,8 +26,8 @@ def eliminar_lista(dic, nombre):
     return 1
 
 def renombrar_lista(dic, lista, nombre):
-    dic[nombre.title()] = dic[lista.title()]
-    del(dic[lista.title()])
+    dic[nombre] = dic[lista]
+    del(dic[lista])
     return 1
 
 # Funciones de lista

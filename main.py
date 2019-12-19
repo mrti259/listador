@@ -11,7 +11,7 @@ while True:
     print('¿Qué archivo queres cargar? Deja vacío para salir')
     #print('Estos son los archivos disponibles:')
     #os.system('ls archivos')
-    arc = input()
+    arc = input('> ')
     archivo = 'archivos/' + arc
     if len(arc) == 0:
         break
@@ -27,11 +27,10 @@ while True:
         print('Archivo: %s.json (%s lista%s)' %(archivo, len(datos), 's'*(not len(datos)==1)))
         print([lista for lista in datos], '\n')
         print('[1] Ver listas y elementos\n[2] Crear lista\n[3] Modificar\n[w] Guardar')
-        menu = input()
+        menu = input('> ')
         print()
         
         while menu == '1':
-            
             print('Listas:')
             if not len(datos):
                 print('No hay nada...')
@@ -50,8 +49,8 @@ while True:
                     if nombre == '':
                         break
                     else:
-                        print('No existe esa lista')
-            if input('Repetir o [x] para volver: ') == 'x':
+                        print('No existe esa lista...')
+            if input('Volver o [x] para repetir: ') != 'x':
                 break
             print()
         if menu == '1':
@@ -59,12 +58,12 @@ while True:
         
         elif menu == '2':
             print('Nueva lista:')
-            nombre = input('').title()
+            nombre = input().title()
             if not nombre in datos and len(nombre):
                 crear_lista(datos, nombre)
                 print('Creada!')
             else:
-                print('Esta lista ya existe.')
+                print('Esta lista ya existe...')
                 print(datos[nombre])
         
         elif menu == '3':
@@ -72,12 +71,13 @@ while True:
             print('Elige una lista:')
             lista = input().title()
             if not lista in datos:
-                print('No se encuentra la lista.')
+                print('No se encuentra la lista...')
             else:
                 print('Lista: %s (%s elemento%s)' % (lista, len(datos[lista]), 's'*(not len(datos[lista])==1)))
                 print(datos[lista], '\n')
-                print('[1] Agregar elementos\n[2] Eliminar elementos\n[3] Renombrar lista\n[4] Copiar\n[5] Eliminar')
-                menu = input()
+                print('[1] Agregar elementos\n[2] Eliminar elemento\n[3] Renombrar elemento\n[4] Renombrar lista\n[5] Copiar\n[6] Eliminar')
+                menu = input('> ')
+                print()
                 if menu == '1':
                     elemento = input('Nuevo elemento: ')
                     while len(elemento) > 0:
@@ -85,7 +85,7 @@ while True:
                             agregar_elemento(datos, lista, elemento)
                             print('Añadido!')
                         else:
-                            print('El elemento ya se encuentra en la lista')
+                            print('El elemento ya se encuentra en la lista...')
                         elemento = input('Nuevo elemento: ')
                 elif menu == '2':
                     elemento = input('Elemento a eliminar:')
@@ -93,31 +93,45 @@ while True:
                         eliminar_elemento(datos, lista, elemento)
                         print('Eliminado!')
                     else:
-                        print('No se encuentra en la lista.')
+                        print('No se encuentra en la lista...')
                 elif menu == '3':
-                    print('Nuevo nombre:')
-                    lista1 = input().title()
-                    if lista1 in datos:
-                        print('La lista', lista1, 'ya existe. No se va a sobreescribir')
+                    print(lista)
+                    for elemento in datos[lista]:
+                        print('', elemento)
+                    elemento = input('Renombrar: ')
+                    if elemento in datos[lista]:
+                        nombre = input('Nuevo nombre: ')
+                        if nombre in datos[lista]:
+                            print('Ya se encuentra en la lista...')
+                        else:
+                            renombrar_elemento(datos, lista, elemento, nombre)
+                            print('Renombrado!')
                     else:
-                        renombrar_lista(datos, lista, lista1)
-                        print('Renombrada!')
+                        print('No se encuentra en la lista...')
                 elif menu == '4':
-                    nombre = input('Nueva lista: ')
+                    print('Nuevo nombre:')
+                    nombre = input().title()
                     if nombre in datos:
-                        print('Ya hay una lista con ese nombre')
+                        print('La lista', nombre, 'ya existe. No se va a sobreescribir')
+                    else:
+                        renombrar_lista(datos, lista, nombre)
+                        print('Renombrada!')
+                elif menu == '5':
+                    nombre = input('Nueva lista: ').title()
+                    if nombre in datos:
+                        print('Ya hay una lista con ese nombre...')
                     else:
                         datos[nombre] = datos[lista]
                         print('Copiada!')
-                elif menu == '5':
-                    lista0 = input('Vuelve a ingresar el nombre de la lista: ')
-                    if lista0 == lista:
-                        eliminar_lista(datos, lista0)
+                elif menu == '6':
+                    nombre = input('Vuelve a ingresar el nombre de la lista: ')
+                    if nombre == lista:
+                        eliminar_lista(datos, lista)
                         print('Eliminada!')
                     else:
-                        print('Cancelado')
+                        print('Cancelado...')
                 else:
-                    print('Volver')
+                    print('Volviendo')
         
         elif menu == 'w':
             nuevo = guardar(archivo, datos)
