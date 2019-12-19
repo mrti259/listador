@@ -24,7 +24,8 @@ while True:
     
     # Menu de listas
     while True:
-        print('Archivo: %s.json (%s lista%s)' %(archivo, len(datos), 's'*(not len(datos)==1)),'\n')
+        print('Archivo: %s.json (%s lista%s)' %(archivo, len(datos), 's'*(not len(datos)==1)))
+        print([lista for lista in datos], '\n')
         print('[1] Ver listas y elementos\n[2] Crear lista\n[3] Modificar\n[w] Guardar')
         menu = input()
         print()
@@ -37,11 +38,11 @@ while True:
             else:
                 for lista in datos:
                     print(' %s (%s)' % (lista, len(datos[lista])))
-                nombre = input('Ver lista: ').title()
+                nombre = input('\nVer lista: ').title()
                 if nombre in datos:
                     print(nombre)
                     if not len(datos[nombre]):
-                        print('No hay elementos...')
+                        print('  No hay elementos...')
                     else:
                         for elemento in datos[nombre]:
                             print(' ', elemento)
