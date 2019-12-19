@@ -15,8 +15,8 @@ while True:
     archivo = 'archivos/' + arc
     if len(arc) == 0:
         break
-    datos, mod = cargar(archivo)
-    if mod:
+    datos, nuevo = cargar(archivo)
+    if nuevo:
         print('Se ha iniciado un nuevo archivo')
     else:
         print('Se cargó un archivo anterior.')
@@ -24,7 +24,8 @@ while True:
     
     # Menu de listas
     while True:
-        print('Archivo: %s.json (%s lista%s)' %(archivo, len(datos), 's'*(not len(datos)==1)),'\n')
+        print('Archivo: %s.json (%s lista%s)' %(archivo, len(datos), 's'*(not len(datos)==1)))
+        print([lista for lista in datos], '\n')
         print('[1] Ver listas y elementos\n[2] Crear lista\n[3] Modificar\n[w] Guardar')
         menu = input()
         print()
@@ -37,11 +38,11 @@ while True:
             else:
                 for lista in datos:
                     print(' %s (%s)' % (lista, len(datos[lista])))
-                nombre = input('Ver lista: ').title()
+                nombre = input('\nVer lista: ').title()
                 if nombre in datos:
                     print(nombre)
                     if not len(datos[nombre]):
-                        print('No hay elementos...')
+                        print('  No hay elementos...')
                     else:
                         for elemento in datos[nombre]:
                             print(' ', elemento)
@@ -72,7 +73,6 @@ while True:
             lista = input().title()
             if not lista in datos:
                 print('No se encuentra la lista.')
-                sleep(2)
             else:
                 print('Lista: %s (%s elemento%s)' % (lista, len(datos[lista]), 's'*(not len(datos[lista])==1)))
                 print(datos[lista], '\n')
@@ -120,14 +120,15 @@ while True:
                     print('Volver')
         
         elif menu == 'w':
-            mod = guardar(archivo, datos)
+            nuevo = guardar(archivo, datos)
             print('Datos guardados!')
         
         else:
-            with open(archivo+'.json', 'r') as file:
-                mod = json.load(file) != datos
-            if mod:
-                print('Hay modificaciones sin guardar')
+            if not nuevo:
+                with open(archivo+'.json', 'r') as file:
+                    mod = json.load(file) != datos
+            if nuevo or mod:
+                print('Hay datos sin guardar')
                 print('[x] Salir sin guardar')
                 print('[w] Guardar y salir')
                 print('o ignorar para cancelar')
