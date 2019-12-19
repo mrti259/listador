@@ -25,7 +25,7 @@ def eliminar_lista(dic, nombre):
     del(dic[nombre])
     return 1
 
-def modificar_lista(dic, lista, nombre):
+def renombrar_lista(dic, lista, nombre):
     dic[nombre.title()] = dic[lista.title()]
     del(dic[lista.title()])
     return 1
@@ -40,7 +40,7 @@ def eliminar_elemento(dic, lista, elemento):
     dic[lista].remove(elemento)
     return 1
 
-def renombrar_lista(dic, lista, elemento0, elemento1):
+def renombrar_elemento(dic, lista, elemento0, elemento1):
     i = dic[lista].index(elemento0)
     dic[lista][i] = elemento1
     return 1
