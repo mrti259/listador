@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from funciones import *
 from time import sleep
 import os
@@ -43,8 +44,12 @@ while True:
                     if not len(datos[nombre]):
                         print('  No hay elementos...')
                     else:
+                        x = 1
                         for elemento in datos[nombre]:
                             print(' ', elemento)
+                            if x % 10 == 0:
+                                input('>>')
+                            x += 1
                 else:
                     if nombre == '':
                         break
@@ -88,7 +93,7 @@ while True:
                             print('El elemento ya se encuentra en la lista...')
                         elemento = input('Nuevo elemento: ')
                 elif menu == '2':
-                    elemento = input('Elemento a eliminar:')
+                    elemento = input('Elemento a eliminar: ')
                     if elemento in datos[lista]:
                         eliminar_elemento(datos, lista, elemento)
                         print('Eliminado!')
@@ -124,7 +129,7 @@ while True:
                         datos[nombre] = datos[lista]
                         print('Copiada!')
                 elif menu == '6':
-                    nombre = input('Vuelve a ingresar el nombre de la lista: ')
+                    nombre = input('Vuelve a ingresar el nombre de la lista: ').title()
                     if nombre == lista:
                         eliminar_lista(datos, lista)
                         print('Eliminada!')
